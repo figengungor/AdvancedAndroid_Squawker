@@ -1,15 +1,13 @@
 package android.example.com.squawker.fcm;
 
 import android.content.ContentValues;
-import android.example.com.squawker.MainActivity;
 import android.example.com.squawker.provider.SquawkContract;
 import android.example.com.squawker.provider.SquawkProvider;
 import android.example.com.squawker.utils.NotificationUtils;
-import android.os.AsyncTask;
+import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-
 import java.util.Map;
 
 /**
@@ -64,6 +62,10 @@ import java.util.Map;
 */
 
 // Squawk Server to send data message => https://squawkerfcmserver.udacity.com/
+// Setting up an FCM Server
+// https://firebase.google.com/docs/cloud-messaging/server
+// https://firebase.googleblog.com/2016/08/sending-notifications-between-android.html
+// https://www.npmjs.com/package/fcm-node
 
 public class SquawkFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -71,9 +73,12 @@ public class SquawkFirebaseMessagingService extends FirebaseMessagingService {
     private static final String JSON_KEY_MESSAGE = "message";
     private static final String JSON_KEY_DATE = "date";
     private static final String JSON_KEY_AUTHOR_KEY = "authorKey";
+    private static final String TAG = SquawkFirebaseMessagingService.class.getSimpleName();
+
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
+        Log.d(TAG, "onMessageReceived: ");
         Map<String, String> data = remoteMessage.getData();
         String author = data.get(JSON_KEY_AUTHOR);
         String message = data.get(JSON_KEY_MESSAGE);
